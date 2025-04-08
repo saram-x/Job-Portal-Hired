@@ -68,3 +68,35 @@ Our innovative **AI-free detection system** automatically identifies potential s
 - **Git** - Version control with GitHub integration
 - **VS Code** - Development environment setup
 
+## 📊 Database Schema
+
+### Core Entities
+
+**Users** (Clerk Managed)
+- User profiles, roles, authentication tokens
+
+**Jobs**
+```sql
+- id, title, description, location, company_id
+- recruiter_id, requirements, salary_range
+- isOpen, created_at, updated_at
+```
+
+**Companies**
+```sql
+- id, name, logo_url, description
+- website, created_at
+```
+
+**Applications**
+```sql
+- id, job_id, candidate_id, name
+- experience, skills, education, resume_url
+- status (applied/interviewing/hired/rejected)
+```
+
+**Saved Jobs**
+```sql
+- id, user_id, job_id, created_at
+```
+
