@@ -100,3 +100,55 @@ Our innovative **AI-free detection system** automatically identifies potential s
 - id, user_id, job_id, created_at
 ```
 
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn package manager
+- Git for version control
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/saram-x/HIRED.git
+cd HIRED
+```
+
+### 2. Install Dependencies
+```bash
+# Install frontend dependencies
+npm install
+
+# Install backend dependencies
+cd server
+npm install
+cd ..
+```
+
+### 3. Environment Configuration
+
+Create `.env` file in project root:
+```env
+# Clerk Authentication
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Server Configuration
+VITE_API_URL=http://localhost:3001
+```
+
+Create `.env` file in server directory:
+```env
+# Clerk Server
+CLERK_SECRET_KEY=your_clerk_secret_key
+
+# Supabase
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Server
+PORT=3001
+```
+
