@@ -152,3 +152,104 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 PORT=3001
 ```
 
+### 4. Database Setup
+
+1. Create Supabase project at [supabase.com](https://supabase.com)
+2. Run database migrations:
+```sql
+-- Create tables for jobs, companies, applications, saved_jobs
+-- (SQL schema available in /database/schema.sql)
+```
+
+### 5. Authentication Setup
+
+1. Create Clerk application at [clerk.com](https://clerk.com)
+2. Configure OAuth providers (Google, GitHub, etc.)
+3. Set up user roles and metadata
+
+### 6. Run Application
+
+```bash
+# Start backend server
+cd server
+npm start
+
+# Start frontend (in new terminal)
+cd ..
+npm run dev
+```
+
+## 🎯 API Endpoints
+```
+
+### Jobs Management
+```
+GET  /api/jobs               # Get all jobs
+POST /api/jobs               # Create new job
+PUT  /api/jobs/:id           # Update job
+DEL  /api/jobs/:id           # Delete job
+GET  /api/jobs/user/:id      # Get user's jobs
+```
+
+### Applications
+```
+GET  /api/applications       # Get applications
+POST /api/applications       # Submit application
+PUT  /api/applications/:id   # Update application status
+DEL  /api/applications/:id   # Delete application
+```
+
+### Companies
+```
+GET  /api/companies          # Get all companies
+POST /api/companies          # Add new company
+PUT  /api/companies/:id      # Update company
+DEL  /api/companies/:id      # Delete company
+```
+
+```
+
+## 🔧 Development Commands
+
+```bash
+# Development
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run preview          # Preview production build
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix ESLint errors
+npm run format           # Format code with Prettier
+
+# Database
+npm run db:migrate       # Run database migrations
+npm run db:seed          # Seed database with sample data
+```
+
+## 📱 Responsive Design
+
+- **Mobile First** - Optimized for mobile devices
+- **Tablet Support** - Responsive layouts for tablets
+- **Desktop Enhanced** - Full-featured desktop experience
+- **Cross-browser** - Compatible with all modern browsers
+
+## 🎨 UI Components
+
+Built with **Shadcn/ui** component library:
+
+- **Forms** - Beautiful, accessible form components
+- **Tables** - Data tables with sorting and filtering
+- **Modals** - Confirmation dialogs and drawers
+- **Navigation** - Sidebar and header navigation
+- **Feedback** - Toast notifications and loading states
+
+## 🔐 Security Best Practices
+
+- **Input Sanitization** - XSS protection
+- **SQL Injection Prevention** - Parameterized queries
+- **File Upload Security** - Type and size validation
+- **Rate Limiting** - API abuse prevention
+- **HTTPS Enforcement** - Secure data transmission
+- **Environment Variables** - Secure configuration management
+
