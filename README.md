@@ -253,3 +253,52 @@ Built with **Shadcn/ui** component library:
 - **HTTPS Enforcement** - Secure data transmission
 - **Environment Variables** - Secure configuration management
 
+## 📈 Performance Optimizations
+
+- **Code Splitting** - Lazy loading of components
+- **Image Optimization** - Compressed and responsive images
+- **Caching Strategies** - Browser and API caching
+- **Bundle Optimization** - Minimized JavaScript bundles
+- **Database Indexing** - Optimized query performance
+
+## 🧪 Testing
+
+```bash
+# Unit Tests
+npm run test             # Run unit tests
+npm run test:watch       # Run tests in watch mode
+npm run test:coverage    # Generate coverage report
+
+# E2E Tests
+npm run test:e2e         # Run end-to-end tests
+npm run test:e2e:ui      # Run E2E tests with UI
+```
+
+## 🚀 Deployment
+
+### Frontend (Vercel/Netlify)
+```bash
+npm run build
+# Deploy dist/ folder to hosting platform
+```
+
+### Backend (Railway/Heroku)
+```bash
+# Deploy server/ directory to cloud platform
+# Ensure environment variables are configured
+```
+
+### Database (Supabase)
+- Production database automatically managed
+- SSL connections enforced
+- Automatic backups enabled
+
+## 📊 Project Statistics
+
+- **Total Lines of Code:** ~15,000+ lines
+- **Components:** 25+ reusable React components
+- **API Endpoints:** 15+ RESTful endpoints
+- **Database Tables:** 8 optimized tables
+- **Security Patterns:** 8 detection algorithms
+- **Code Reduction:** 75% through refactoring (AdminPage: 900→223 lines)
+
