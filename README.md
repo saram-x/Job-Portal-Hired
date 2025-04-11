@@ -302,3 +302,31 @@ npm run build
 - **Security Patterns:** 8 detection algorithms
 - **Code Reduction:** 75% through refactoring (AdminPage: 900→223 lines)
 
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+## 👨‍💻 Developer
+
+**Saram Khan**
+- GitHub: [@saram-x](https://github.com/saram-x)
+- Project: [HIRED Job Portal](https://github.com/saram-x/HIRED)
+
+## 🙏 Acknowledgments
+
+- **Clerk** - Authentication and user management
+- **Supabase** - Database and backend services
+- **Shadcn/ui** - Beautiful component library
+- **Tailwind CSS** - Utility-first CSS framework
+- **React Community** - Amazing ecosystem and resources
+
+---
+
+**Built with ❤️ for connecting talent with opportunities**
+---
+
+*This project was developed as a Final Year Project (FYP) demonstrating full-stack development skills, security implementation, and modern web application architecture.*
