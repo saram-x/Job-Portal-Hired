@@ -17,4 +17,11 @@
 *.md text
 *.txt text
 *.yml text
+*.yaml text
+*.gitignore text
+*.gitattributes text
+
+# Declare files that will always have CRLF line endings on checkout.
+*.bat text eol=crlf
+*.cmd text eol=crlf
 
