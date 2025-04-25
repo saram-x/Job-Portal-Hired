@@ -11,3 +11,10 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    // Proxy API calls to Express backend server
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
+})
