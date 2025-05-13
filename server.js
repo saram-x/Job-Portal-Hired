@@ -19,3 +19,15 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+// Suspicious patterns for job detection (refined to avoid false positives)
+const SUSPICIOUS_PATTERNS = {
+  highSalary: /(\$|USD|dollars?)\s*([1-9]\d{6,}|\d{1,2},\d{3},\d{3})/i, // Increased threshold to $1M+
+  tooGoodToBeTrue: /(million|millionaire|get rich quick|easy money|no experience required.*high salary|make.*\$.*fast|instant wealth|quick cash)/i,
+  promotionalContent: /(buy now|click here|visit our website.*urgent|act fast|limited time offer|special promotion|discount code|sale ending soon)/i,
+  vagueTitles: /^(make money|earn money|work from home|amazing opportunity|easy job|get paid to|mystery shopper)$/i,
+  suspiciousCompanies: /(unknown company|company name: n\/a|not specified|test\.com|fake-company|scam corp)/i,
+  multiLevelMarketing: /(mlm scheme|pyramid scheme|network marketing.*recruitment|recruit others|downline commissions|upline bonuses|multi level marketing|referral program.*unlimited)/i,
+  crypto: /(bitcoin mining|crypto trading|forex trading.*guaranteed|investment scheme|trading bot|cryptocurrency.*guaranteed returns)/i,
+  scamKeywords: /(guaranteed income|no skills needed.*high pay|work 1 hour.*\$|instant money|cash fast.*today|get paid daily|no interview required.*high salary)/i
+};
+
