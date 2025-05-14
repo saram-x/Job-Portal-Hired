@@ -31,3 +31,13 @@ const SUSPICIOUS_PATTERNS = {
   scamKeywords: /(guaranteed income|no skills needed.*high pay|work 1 hour.*\$|instant money|cash fast.*today|get paid daily|no interview required.*high salary)/i
 };
 
+// Analyze a single job for suspicious patterns
+const analyzeJobForSuspiciousPatterns = (job) => {
+  const title = (job.title || "").toLowerCase();
+  const description = (job.description || "").toLowerCase();
+  const location = (job.location || "").toLowerCase();
+  const jobText = `${title} ${description} ${location}`;
+  
+  let suspiciousReasons = [];
+
+  
