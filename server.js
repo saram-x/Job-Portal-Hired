@@ -40,4 +40,30 @@ const analyzeJobForSuspiciousPatterns = (job) => {
   
   let suspiciousReasons = [];
 
+  // Check for suspicious patterns
+  if (SUSPICIOUS_PATTERNS.highSalary.test(jobText)) {
+    suspiciousReasons.push("Unusually high salary mentioned");
+  }
+  if (SUSPICIOUS_PATTERNS.tooGoodToBeTrue.test(jobText)) {
+    suspiciousReasons.push("Too good to be true claims");
+  }
+  if (SUSPICIOUS_PATTERNS.promotionalContent.test(jobText)) {
+    suspiciousReasons.push("Contains promotional/marketing content");
+  }
+  if (SUSPICIOUS_PATTERNS.vagueTitles.test(title)) {
+    suspiciousReasons.push("Vague or generic job title");
+  }
+  if (SUSPICIOUS_PATTERNS.suspiciousCompanies.test(jobText)) {
+    suspiciousReasons.push("Suspicious company name");
+  }
+  if (SUSPICIOUS_PATTERNS.multiLevelMarketing.test(jobText)) {
+    suspiciousReasons.push("Possible MLM/pyramid scheme");
+  }
+  if (SUSPICIOUS_PATTERNS.crypto.test(jobText)) {
+    suspiciousReasons.push("Cryptocurrency/trading/investment related");
+  }
+  if (SUSPICIOUS_PATTERNS.scamKeywords.test(jobText)) {
+    suspiciousReasons.push("Contains common scam keywords");
+  }
+
   
