@@ -66,4 +66,18 @@ const analyzeJobForSuspiciousPatterns = (job) => {
     suspiciousReasons.push("Contains common scam keywords");
   }
 
-  
+  // Additional structural checks (refined)
+  if (description.length < 30) {
+    suspiciousReasons.push("Job description too short/vague");
+  }
+  if (title.length > 150) {
+    suspiciousReasons.push("Unusually long job title");
+  }
+  if ((description.includes("http") || description.includes("www.")) && 
+      (description.includes("apply here") || description.includes("click to apply") || description.includes("external site"))) {
+    suspiciousReasons.push("Contains suspicious external links");
+  }
+
+  return suspiciousReasons;
+};
+
