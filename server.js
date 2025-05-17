@@ -117,3 +117,8 @@ const addRecruiterDetailsToJob = async (job) => {
   }
 };
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ message: 'Server is running', timestamp: new Date().toISOString() });
+});
+
