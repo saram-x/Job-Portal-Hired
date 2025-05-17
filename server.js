@@ -81,3 +81,39 @@ const analyzeJobForSuspiciousPatterns = (job) => {
   return suspiciousReasons;
 };
 
+// Add recruiter details to a job
+const addRecruiterDetailsToJob = async (job) => {
+  try {
+    const response = await fetch(`https://api.clerk.com/v1/users/${job.recruiter_id}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.VITE_CLERK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const recruiter = await response.json();
+      return {
+        ...job,
+        recruiter_email: recruiter.email_addresses?.[0]?.email_address || "N/A",
+        recruiter_name: recruiter.first_name || "N/A",
+        companies: { name: "N/A" }
+      };
+    } else {
+      return {
+        ...job,
+        recruiter_email: "N/A",
+        recruiter_name: "N/A",
+        companies: { name: "N/A" }
+      };
+    }
+  } catch (err) {
+    return {
+      ...job,
+      recruiter_email: "N/A",
+      recruiter_name: "N/A",
+      companies: { name: "N/A" }
+    };
+  }
+};
+
