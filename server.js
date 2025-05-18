@@ -122,3 +122,26 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ message: 'Server is running', timestamp: new Date().toISOString() });
 });
 
+// Get all users for admin
+app.get("/api/users", async (req, res) => {
+  try {
+    const response = await fetch("https://api.clerk.com/v1/users", {
+      headers: {
+        Authorization: `Bearer ${process.env.VITE_CLERK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error("❌ Clerk API error:", response.status);
+      return res.status(response.status).json({ error: "Failed to fetch users from Clerk" });
+    }
+
+    const users = await response.json();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("❌ Error fetching users:", error.message);
+    res.status(500).json({ error: "Server error fetching users" });
+  }
+});
+
