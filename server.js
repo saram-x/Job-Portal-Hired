@@ -145,3 +145,28 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+// Delete user
+app.delete("/api/users/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const response = await fetch(`https://api.clerk.com/v1/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${process.env.VITE_CLERK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error("❌ Failed to delete user:", response.status);
+      return res.status(response.status).json({ error: "Failed to delete user" });
+    }
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("❌ Error deleting user:", error.message);
+    res.status(500).json({ error: "Server error deleting user" });
+  }
+});
+
