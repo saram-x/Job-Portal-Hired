@@ -170,3 +170,26 @@ app.delete("/api/users/:userId", async (req, res) => {
   }
 });
 
+// Ban user
+app.post("/api/ban-user/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const response = await fetch(`https://api.clerk.com/v1/users/${userId}/ban`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: "Failed to ban user" });
+    }
+
+    res.status(200).json({ message: "User banned successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error banning user" });
+  }
+});
+
