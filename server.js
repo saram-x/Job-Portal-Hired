@@ -193,3 +193,26 @@ app.post("/api/ban-user/:userId", async (req, res) => {
   }
 });
 
+// Unban user
+app.post("/api/unban-user/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const response = await fetch(`https://api.clerk.com/v1/users/${userId}/unban`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: "Failed to unban user" });
+    }
+
+    res.status(200).json({ message: "User unbanned successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error unbanning user" });
+  }
+});
+
