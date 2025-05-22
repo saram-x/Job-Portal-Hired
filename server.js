@@ -216,3 +216,21 @@ app.post("/api/unban-user/:userId", async (req, res) => {
   }
 });
 
+// Get all jobs for admin
+app.get("/api/jobs", async (req, res) => {
+  try {
+    const { data: jobs, error } = await supabase
+      .from("jobs")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("❌ Supabase error:", error.message);
+      return res.status(500).json({ error: "Failed to fetch jobs" });
+    }
+
+    if (!jobs || jobs.length === 0) {
+      return res.status(200).json([]);
+    }
+
+   
