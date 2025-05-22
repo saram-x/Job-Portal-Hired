@@ -233,4 +233,15 @@ app.get("/api/jobs", async (req, res) => {
       return res.status(200).json([]);
     }
 
-   
+    // Get recruiter details for each job
+    const jobsWithRecruiters = await Promise.all(
+      jobs.map(job => addRecruiterDetailsToJob(job))
+    );
+
+    res.status(200).json(jobsWithRecruiters);
+  } catch (error) {
+    console.error("❌ Error fetching jobs:", error.message);
+    res.status(500).json({ error: "Server error fetching jobs" });
+  }
+});
+
