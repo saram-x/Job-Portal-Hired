@@ -245,3 +245,34 @@ app.get("/api/jobs", async (req, res) => {
   }
 });
 
+// Delete job
+app.delete("/api/jobs/:jobId", async (req, res) => {
+  const { jobId } = req.params;
+
+  try {
+    const { data, error } = await supabase
+      .from("jobs")
+      .delete()
+      .eq("id", jobId)
+      .select();
+
+    if (error) {
+      console.error("❌ Supabase error:", error.message);
+      return res.status(500).json({ error: "Failed to delete job" });
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+
+    res.status(200).json({ 
+      message: "Job deleted successfully", 
+      deletedJob: data[0],
+      rowsAffected: data.length
+    });
+  } catch (error) {
+    console.error("❌ Error deleting job:", error.message);
+    res.status(500).json({ error: "Server error deleting job" });
+  }
+});
+
