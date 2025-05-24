@@ -276,3 +276,24 @@ app.delete("/api/jobs/:jobId", async (req, res) => {
   }
 });
 
+// Get suspicious jobs (real-time detection without database changes)
+app.get("/api/get-suspicious-jobs", async (req, res) => {
+  try {
+    // Get all jobs from database
+    const { data: allJobs, error } = await supabase
+      .from("jobs")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("❌ Error fetching jobs:", error.message);
+      return res.status(500).json({ error: "Failed to fetch jobs" });
+    }
+
+    if (!allJobs || allJobs.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    const suspiciousJobs = [];
+
+    
