@@ -296,4 +296,20 @@ app.get("/api/get-suspicious-jobs", async (req, res) => {
 
     const suspiciousJobs = [];
 
+    // Analyze each job for suspicious patterns
+    for (const job of allJobs) {
+      const suspiciousReasons = analyzeJobForSuspiciousPatterns(job);
+
+      // If any suspicious patterns found, add to suspicious jobs list
+      if (suspiciousReasons.length > 0) {
+        const reason = suspiciousReasons.join("; ");
+        suspiciousJobs.push({
+          ...job,
+          suspicious_reason: reason,
+          flagged_at: new Date().toISOString(),
+          is_suspicious: true
+        });
+      }
+    }
+
     
