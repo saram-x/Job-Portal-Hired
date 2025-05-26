@@ -312,4 +312,15 @@ app.get("/api/get-suspicious-jobs", async (req, res) => {
       }
     }
 
-    
+    // Get recruiter details for suspicious jobs
+    const jobsWithRecruiters = await Promise.all(
+      suspiciousJobs.map(job => addRecruiterDetailsToJob(job))
+    );
+
+    res.status(200).json(jobsWithRecruiters);
+  } catch (error) {
+    console.error("❌ Error detecting suspicious jobs:", error.message);
+    res.status(500).json({ error: "Failed to detect suspicious jobs" });
+  }
+});
+
