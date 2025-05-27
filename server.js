@@ -345,4 +345,33 @@ app.post("/api/auto-detect-suspicious", async (req, res) => {
     let detectedCount = 0;
     const analysisResults = [];
 
+    // Analyze each job
+    for (const job of allJobs) {
+      const suspiciousReasons = analyzeJobForSuspiciousPatterns(job);
 
+      if (suspiciousReasons.length > 0) {
+        detectedCount++;
+        analysisResults.push({
+          job_id: job.id,
+          title: job.title,
+          reasons: suspiciousReasons
+        });
+      }
+    }
+    
+    res.status(200).json({
+      message: `Auto-detection complete: Found ${detectedCount} suspicious jobs out of ${allJobs.length} total jobs`,
+      detectedCount,
+      totalJobs: allJobs.length,
+      detectionResults: analysisResults.slice(0, 10)
+    });
+  } catch (error) {
+    console.error("❌ Error in auto-detection:", error.message);
+    res.status(500).json({ error: "Failed to auto-detect suspicious jobs" });
+  }
+});
+
+// Start Express server
+app.listen(port, () => {
+  console.log(`✅ Backend server running on http://localhost:${port}`);
+});
