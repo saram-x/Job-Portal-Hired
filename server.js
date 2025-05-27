@@ -324,3 +324,25 @@ app.get("/api/get-suspicious-jobs", async (req, res) => {
   }
 });
 
+// Auto-detect suspicious jobs (real-time analysis without database changes)
+app.post("/api/auto-detect-suspicious", async (req, res) => {
+  try {
+    // Get all jobs from database
+    const { data: allJobs, error } = await supabase
+      .from("jobs")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("❌ Error fetching jobs:", error.message);
+      return res.status(500).json({ error: "Failed to fetch jobs for analysis" });
+    }
+
+    if (!allJobs || allJobs.length === 0) {
+      return res.status(200).json({ message: "No jobs found for analysis", detectedCount: 0 });
+    }
+
+    let detectedCount = 0;
+    const analysisResults = [];
+
+
