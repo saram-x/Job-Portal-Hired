@@ -18,3 +18,25 @@ import JobPage from "./pages/job";
 
 import "./App.css";
 
+// Define all application routes with protection levels
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <ProtectedRoute>
+            <LandingPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/onboarding",
+        element: (
+          <ProtectedRoute>
+            <Onboarding />
+          </ProtectedRoute>
+        ),
+      },
+      
