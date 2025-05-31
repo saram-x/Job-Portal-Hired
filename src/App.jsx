@@ -39,4 +39,20 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoute requiredRole="admin">
+            <AdminPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/jobs",
+        element: (
+          <ProtectedRoute>
+            <JobListing />
+          </ProtectedRoute>
+        ),
+      },
       
