@@ -33,4 +33,16 @@ import {
       ),
   });
   
+  // Modal drawer component for adding new companies to the platform
+  const AddCompanyDrawer = ({ fetchCompanies }) => {
+    const { toast } = useToast();
+    
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm({
+      resolver: zodResolver(schema),
+    });
   
+   
