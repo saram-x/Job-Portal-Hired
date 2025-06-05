@@ -70,4 +70,15 @@ import {
       }
     }, [dataAddCompany, fetchCompanies, toast]);
 
-    
+    // Show error toast if company creation fails
+    useEffect(() => {
+      if (errorAddCompany) {
+        toast({
+          title: "❌ Error adding company",
+          description: errorAddCompany.message || "Failed to add the company. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }, [errorAddCompany, toast]);
+  
+   
