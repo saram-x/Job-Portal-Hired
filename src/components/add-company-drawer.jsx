@@ -45,4 +45,29 @@ import {
       resolver: zodResolver(schema),
     });
   
-   
+    const {
+      loading: loadingAddCompany,
+      error: errorAddCompany,
+      data: dataAddCompany,
+      fn: fnAddCompany,
+    } = useFetch(addNewCompany);
+  
+    const onSubmit = async (data) => {
+      fnAddCompany({
+        ...data,
+        logo: data.logo[0],
+      });
+    };
+  
+    useEffect(() => {
+      if (dataAddCompany?.length > 0) {
+        toast({
+          title: "🏢 Company added successfully!",
+          description: `${dataAddCompany[0].name} has been added to the platform.`,
+          variant: "default",
+        });
+        fetchCompanies();
+      }
+    }, [dataAddCompany, fetchCompanies, toast]);
+
+    
