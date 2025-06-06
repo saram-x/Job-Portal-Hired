@@ -81,4 +81,19 @@ import {
       }
     }, [errorAddCompany, toast]);
   
+    return (
+      <Drawer>
+        <DrawerTrigger>
+          <Button type="button" size="sm" variant="secondary">
+            Add Company
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Add a New Company</DrawerTitle>
+          </DrawerHeader>
+          <form className="flex gap-2 p-4 pb-0">
+            {/* Company Name */}
+            <Input placeholder="Company name" {...register("name")} />
+  
    
