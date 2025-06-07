@@ -96,4 +96,12 @@ import {
             {/* Company Name */}
             <Input placeholder="Company name" {...register("name")} />
   
-   
+            {/* Company Logo */}
+            <Input
+              type="file"
+              accept="image/*"
+              className=" file:text-gray-500"
+              {...register("logo")}
+            />
+  
+    
