@@ -104,4 +104,32 @@ import {
               {...register("logo")}
             />
   
-    
+            {/* Add Button */}
+            <Button
+              type="button"
+              onClick={handleSubmit(onSubmit)}
+              variant="destructive"
+              className="w-40"
+            >
+              Add
+            </Button>
+          </form>
+          <DrawerFooter>
+            {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+            {errors.logo && <p className="text-red-500">{errors.logo.message}</p>}
+            {errorAddCompany?.message && (
+              <p className="text-red-500">{errorAddCompany?.message}</p>
+            )}
+            {loadingAddCompany && <BarLoader width={"100%"} color="#36d7b7" />}
+            <DrawerClose asChild>
+              <Button type="button" variant="secondary">
+                Cancel
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  };
+  
+  export default AddCompanyDrawer;
