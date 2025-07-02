@@ -37,4 +37,18 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
     fnHiringStatus(status).then(() => fnHiringStatus());
   };
 
- 
+  return (
+    <Card>
+      {loadingHiringStatus && <BarLoader width={"100%"} color="#36d7b7" />}
+      <CardHeader>
+        <CardTitle className="flex justify-between font-bold">
+          {isCandidate
+            ? `${application?.job?.title} at ${application?.job?.company?.name}`
+            : application?.name}
+          <Download
+            size={18}
+            className="bg-white text-black rounded-full h-8 w-8 p-1.5 cursor-pointer"
+            onClick={handleDownload}
+          />
+        </CardTitle>
+  
