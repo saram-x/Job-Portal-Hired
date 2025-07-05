@@ -41,3 +41,48 @@ const schema = z.object({
     ),
 });
 
+// Interactive drawer component for submitting job applications
+export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const { toast } = useToast();
+
+  const {
+    loading: loadingApply,
+    error: errorApply,
+    fn: fnApply,
+  } = useFetch(applyToJob);
+
+  const onSubmit = (data) => {
+    fnApply({
+      ...data,
+      job_id: job.id,
+      candidate_id: user.id,
+      name: user.fullName,
+      status: "applied",
+      resume: data.resume[0],
+    }).then(() => {
+      toast({
+        title: "🎉 Application submitted successfully!",
+        description: `Your application for "${job.title}" at ${job.company?.name} has been sent.`,
+        variant: "default",
+      });
+      fetchJob();
+      reset();
+    }).catch((error) => {
+      toast({
+        title: "❌ Application failed",
+        description: error.message || "Failed to submit your application. Please try again.",
+        variant: "destructive",
+      });
+    });
+  };
+
