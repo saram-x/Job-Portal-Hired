@@ -86,3 +86,44 @@ export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
     });
   };
 
+  return (
+    <Drawer open={applied ? false : undefined}>
+      <DrawerTrigger asChild>
+        <Button
+          size="lg"
+          variant={job?.isOpen && !applied ? "blue" : "destructive"}
+          disabled={!job?.isOpen || applied}
+        >
+          {job?.isOpen ? (applied ? "Applied" : "Apply") : "Hiring Closed"}
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>
+            Apply for {job?.title} at {job?.company?.name}
+          </DrawerTitle>
+          <DrawerDescription>Please Fill the form below</DrawerDescription>
+        </DrawerHeader>
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 p-4 pb-0"
+        >
+          <Input
+            type="number"
+            placeholder="Years of Experience"
+            className="flex-1"
+            {...register("experience", {
+              valueAsNumber: true,
+            })}
+          />
+          {errors.experience && (
+            <p className="text-red-500">{errors.experience.message}</p>
+          )}
+          <Input
+            type="text"
+            placeholder="Skills (Comma Separated)"
+            className="flex-1"
+            {...register("skills")}
+          />
+      
