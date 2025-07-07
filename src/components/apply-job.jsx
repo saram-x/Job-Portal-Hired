@@ -126,4 +126,56 @@ export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
             className="flex-1"
             {...register("skills")}
           />
-      
+          {errors.skills && (
+            <p className="text-red-500">{errors.skills.message}</p>
+          )}
+          <Controller
+            name="education"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup onValueChange={field.onChange} {...field}>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="Intermediate" id="intermediate" />
+                  <Label htmlFor="intermediate">Intermediate</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="Graduate" id="graduate" />
+                  <Label htmlFor="graduate">Graduate</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="Post Graduate" id="post-graduate" />
+                  <Label htmlFor="post-graduate">Post Graduate</Label>
+                </div>
+              </RadioGroup>
+            )}
+          />
+          {errors.education && (
+            <p className="text-red-500">{errors.education.message}</p>
+          )}
+          <Input
+            type="file"
+            accept=".pdf, .doc, .docx"
+            className="flex-1 file:text-gray-500"
+            {...register("resume")}
+          />
+          {errors.resume && (
+            <p className="text-red-500">{errors.resume.message}</p>
+          )}
+          {errorApply?.message && (
+            <p className="text-red-500">{errorApply?.message}</p>
+          )}
+          {loadingApply && <BarLoader width={"100%"} color="#36d7b7" />}
+          <Button type="submit" variant="blue" size="lg">
+            Apply
+          </Button>
+        </form>
+
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
