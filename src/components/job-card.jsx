@@ -27,4 +27,27 @@ const JobCard = ({
   const { user } = useUser();
   const { toast } = useToast();
 
-  
+  // Job deletion functionality (for recruiters)
+  const { loading: loadingDeleteJob, fn: fnDeleteJob } = useFetch(deleteJob, {
+    job_id: job.id,
+  });
+
+  // Save/unsave job functionality (for candidates)
+  const {
+    loading: loadingSavedJob,
+    data: savedJob,
+    fn: fnSavedJob,
+  } = useFetch(saveJob);
+
+  // Handle saving/unsaving a job
+  const handleSaveJob = async () => {
+    try {
+      // Store the current state before making the API call
+      const wasAlreadySaved = saved;
+      
+      const result = await fnSavedJob({
+        user_id: user.id,
+        job_id: job.id,
+      });
+      
+      
