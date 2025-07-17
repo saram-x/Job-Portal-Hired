@@ -50,4 +50,32 @@ const JobCard = ({
         job_id: job.id,
       });
       
+      // Show success toast based on the previous state (what action was performed)
+      if (!wasAlreadySaved) {
+        // Job was not saved before, so we just saved it
+        toast({
+          title: "💖 Job saved!",
+          description: `"${job.title}" has been added to your saved jobs.`,
+          variant: "default",
+        });
+      } else {
+        // Job was saved before, so we just unsaved it
+        toast({
+          title: "🗑️ Job unsaved",
+          description: `"${job.title}" has been removed from your saved jobs.`,
+          variant: "default",
+        });
+      }
       
+      // Note: setSaved will be handled by useEffect when savedJob changes
+      onJobAction(); // Refresh parent component
+    } catch (error) {
+      toast({
+        title: "❌ Error saving job",
+        description: error.message || "Failed to save/unsave the job. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  
