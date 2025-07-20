@@ -16,4 +16,28 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
   const role = user?.unsafeMetadata?.role;
 
-  
+  // Check if user has the required role for this route
+  if (requiredRole && role !== requiredRole) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Auto-redirect admins to admin panel
+  if (role === "admin" && pathname !== "/admin") {
+    return <Navigate to="/admin" />;
+  }
+
+  // Prevent non-admins from accessing admin routes
+  if (role !== "admin" && pathname === "/admin") {
+    return <Navigate to="/" replace />;
+  }
+
+  // Redirect users without roles to onboarding flow
+  if (!role && pathname !== "/onboarding") {
+    return <Navigate to="/onboarding" />;
+  }
+
+  // Render protected content if all checks pass
+  return children;
+};
+
+export default ProtectedRoute;
