@@ -42,4 +42,24 @@ const AdminDataTable = ({ config, activeTab }) => {
                     {header}
                   </TableHead>
                 ))}
-            
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {config.data.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={config.headers.length} className="px-6 py-8 text-center text-gray-400">
+                    {config.emptyMessage}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                config.data.map(config.renderRow)
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdminDataTable;
