@@ -39,4 +39,52 @@ export const createTableConfig = (
       data: filteredData.filteredJobs,
       totalCount: filteredData.filteredJobs.length,
       loading: loading.jobsLoading,
-   
+      loadingMessage: "Loading jobs...",
+      emptyMessage: searchValues.searchJobs ? "No jobs found matching your search." : "No jobs posted yet.",
+      headers: ["Title", "Recruiter Email", "Location", "Status", "Created", "Actions"],
+      renderRow: (job) => (
+        <JobRow 
+          key={job.id} 
+          job={job} 
+          onDeleteJob={handleFunctions.handleDeleteJob} 
+        />
+      )
+    },
+    suspicious: {
+      title: "Flagged Jobs",
+      searchPlaceholder: "Search by title, recruiter, or reason...",
+      searchValue: searchValues.searchSuspicious,
+      onSearchChange: setSearchValues.setSearchSuspicious,
+      data: filteredData.filteredSuspiciousJobs,
+      totalCount: filteredData.filteredSuspiciousJobs.length,
+      loading: loading.suspiciousLoading,
+      loadingMessage: "Loading suspicious jobs...",
+      emptyMessage: searchValues.searchSuspicious ? "No suspicious jobs found matching your search." : "No suspicious jobs flagged yet. 🎉",
+      headers: ["Title", "Recruiter Email", "Suspicious Reason", "Location", "Flagged Date", "Actions"],
+      renderRow: (job) => (
+        <JobRow 
+          key={job.id} 
+          job={job} 
+          onDeleteJob={handleFunctions.handleDeleteJob}
+          onCleanJob={handleFunctions.handleCleanJob}
+          showSuspiciousReason={true}
+        />
+      ),
+      headerActions: (
+        <Button 
+          onClick={handleAutoDetect}
+          variant="outline"
+          className="bg-orange-600 hover:bg-orange-700 text-white border-orange-500"
+        >
+          Auto-Detect Suspicious
+        </Button>
+      )
+    }
+  };
+
+  return configs[activeTab];
+};
+
+// Import statements for components
+import UserRow from "./user-row";
+import JobRow from "./job-row";
