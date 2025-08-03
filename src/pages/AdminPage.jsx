@@ -33,4 +33,27 @@ const AdminPage = () => {
   const { session } = useSession();
   const { toast } = useToast();
 
+  // Fetch suspicious jobs for admin review
+  const fnSuspiciousJobs = async () => {
+    try {
+      setSuspiciousLoading(true);
+      
+      const response = await fetch("http://localhost:3001/api/get-suspicious-jobs");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch suspicious jobs: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Filter out cleaned jobs from current session
+      const filteredData = data.filter(job => !cleanedJobs.has(job.id));
+      setSuspiciousJobs(filteredData);
+    } catch (err) {
+      console.error("❌ Error fetching suspicious jobs:", err);
+      setError("Error fetching suspicious jobs");
+    } finally {
+      setSuspiciousLoading(false);
+    }
+  };
+
   
