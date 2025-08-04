@@ -121,4 +121,49 @@ const AdminPage = () => {
     }
   };
 
- 
+  // Fetch all platform users from Clerk API via backend
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/api/users");
+      const data = await res.json();
+      setUsers(data);
+    } catch (err) {
+      setError("Error fetching users");
+      console.error("Error fetching users:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load users when component mounts
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // Load jobs when jobs tab is active and user is authenticated
+  useEffect(() => {
+    if (activeTab === "jobs" && isLoaded) {
+      fnJobs();
+    }
+  }, [activeTab, isLoaded]);
+
+  // Load suspicious jobs when suspicious tab is active
+  useEffect(() => {
+    if (activeTab === "suspicious" && isLoaded) {
+      fnSuspiciousJobs();
+    }
+  }, [activeTab, isLoaded]);
+
+  // Filter users (exclude admins) and apply search filter
+  const filteredUsers = users.filter((user) => {
+    const email = user.email_addresses?.[0]?.email_address || "";
+    const name = user.first_name || "";
+    const username = user.username || "";
+    return (
+      !email.endsWith("@admin.com") &&
+      (email.toLowerCase().includes(searchEmail.toLowerCase()) ||
+       name.toLowerCase().includes(searchEmail.toLowerCase()) ||
+       username.toLowerCase().includes(searchEmail.toLowerCase()))
+    );
+  });
+
