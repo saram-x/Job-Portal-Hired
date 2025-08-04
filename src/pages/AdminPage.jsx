@@ -56,4 +56,69 @@ const AdminPage = () => {
     }
   };
 
-  
+  // Fetch all jobs with recruiter info via server-side API
+  const fnJobs = async () => {
+    try {
+      setJobsLoading(true);
+      
+      const response = await fetch("http://localhost:3001/api/jobs");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch jobs: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setJobs(data);
+    } catch (err) {
+      console.error("❌ Error fetching jobs:", err);
+      setError("Error fetching jobs");
+    } finally {
+      setJobsLoading(false);
+    }
+  };
+
+  // Custom hook for admin operations
+  const { handleDeleteJob, handleCleanJob, handleDeleteUser, handleBanUser } = useAdminOperations(
+    setUsers, setJobs, setSuspiciousJobs, setCleanedJobs, cleanedJobs, users, fnJobs, fnSuspiciousJobs
+  );
+
+  // Run auto-detection for suspicious jobs
+  const handleAutoDetect = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/auto-detect-suspicious", {
+        method: "POST"
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        if (result.migrationRequired) {
+          toast({
+            title: "🔧 Database Migration Required",
+            description: "Please run the database migration first. Check SUSPICIOUS_JOBS_MIGRATION.md for instructions.",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw new Error(result.error || "Auto-detection failed");
+      }
+      
+      toast({
+        title: "🔍 Auto-detection complete!",
+        description: `${result.flaggedCount} jobs were automatically flagged as suspicious.`,
+        variant: "default",
+      });
+      
+      // Refresh jobs lists
+      fnJobs();
+      fnSuspiciousJobs();
+    } catch (err) {
+      console.error("Error in auto-detection:", err);
+      toast({
+        title: "❌ Auto-detection failed",
+        description: err.message || "Failed to run auto-detection. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+ 
