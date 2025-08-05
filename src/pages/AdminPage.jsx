@@ -167,3 +167,75 @@ const AdminPage = () => {
     );
   });
 
+  // Filter jobs by title or recruiter email
+  const filteredJobs = (jobs || []).filter((job) => {
+    const title = job.title || "";
+    const recruiterEmail = job.recruiter_email || "";
+    return (
+      title.toLowerCase().includes(searchJobs.toLowerCase()) ||
+      recruiterEmail.toLowerCase().includes(searchJobs.toLowerCase())
+    );
+  });
+
+  // Filter suspicious jobs by title or recruiter email
+  const filteredSuspiciousJobs = (suspiciousJobs || []).filter((job) => {
+    const title = job.title || "";
+    const recruiterEmail = job.recruiter_email || "";
+    const reason = job.suspicious_reason || "";
+    return (
+      title.toLowerCase().includes(searchSuspicious.toLowerCase()) ||
+      recruiterEmail.toLowerCase().includes(searchSuspicious.toLowerCase()) ||
+      reason.toLowerCase().includes(searchSuspicious.toLowerCase())
+    );
+  });
+
+  // Show loading or error states
+  if (loading) return <LoadingSpinner message="Loading users..." />;
+  if (error) return <div className="p-6 text-red-600">{error}</div>;
+
+  // Create table configuration
+  const tableConfig = createTableConfig(
+    activeTab,
+    { searchEmail, searchJobs, searchSuspicious },
+    { setSearchEmail, setSearchJobs, setSearchSuspicious },
+    { filteredUsers, filteredJobs, filteredSuspiciousJobs },
+    { loading, jobsLoading, suspiciousLoading },
+    { handleBanUser, handleDeleteUser, handleDeleteJob, handleCleanJob },
+    handleAutoDetect
+  );
+
+  // Get current filtered data based on active tab
+  const getCurrentFilteredData = () => {
+    switch (activeTab) {
+      case 'users': return filteredUsers;
+      case 'jobs': return filteredJobs;
+      case 'suspicious': return filteredSuspiciousJobs;
+      default: return [];
+    }
+  };
+
+  return (
+    <SidebarProvider>
+      <div className="flex min-h-screen">
+        <AdminSidebar 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          suspiciousJobsCount={suspiciousJobs.length} 
+        />
+        
+        <div className="flex-1 p-8">
+          <SectionHeader 
+            activeTab={activeTab} 
+            filteredData={getCurrentFilteredData()} 
+          />
+          <AdminDataTable 
+            config={tableConfig} 
+            activeTab={activeTab} 
+          />
+        </div>
+      </div>
+    </SidebarProvider>
+  );
+};
+
+export default AdminPage;
