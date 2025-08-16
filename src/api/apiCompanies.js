@@ -21,4 +21,31 @@ export async function addNewCompany(token, _, companyData) {
   const random = Math.floor(Math.random() * 90000);
   const fileName = `logo-${random}-${companyData.name}`;
 
-  
+  // Upload logo to storage
+  const { error: storageError } = await supabase.storage
+    .from("company-logo")
+    .upload(fileName, companyData.logo);
+
+  if (storageError) throw new Error("Error uploading Company Logo");
+
+  // Get public URL for the uploaded logo
+  const logo_url = `${supabaseUrl}/storage/v1/object/public/company-logo/${fileName}`;
+
+  // Insert company record with logo URL
+  const { data, error } = await supabase
+    .from("companies")
+    .insert([
+      {
+        name: companyData.name,
+        logo_url: logo_url,
+      },
+    ])
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error submitting Companys");
+  }
+
+  return data;
+}
