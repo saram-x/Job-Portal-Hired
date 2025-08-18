@@ -82,4 +82,117 @@ export async function saveJob(token, _, saveData) {
   }
 
   if (existingSaves && existingSaves.length > 0) {
-    
+    // Remove job from saved jobs if already saved
+    const { data, error: deleteError } = await supabase
+      .from("saved_jobs")
+      .delete()
+      .eq("job_id", saveData.job_id)
+      .eq("user_id", saveData.user_id);
+
+    if (deleteError) {
+      console.error("❌ Error removing saved job:", deleteError);
+      throw deleteError;
+    }
+
+    return [];
+  } else {
+    // Add job to saved jobs if not already saved
+    const { data, error: insertError } = await supabase
+      .from("saved_jobs")
+      .insert([{
+        user_id: saveData.user_id,
+        job_id: saveData.job_id
+      }])
+      .select();
+
+    if (insertError) {
+      console.error("❌ Error saving job:", insertError);
+      throw insertError;
+    }
+
+    return data;
+  }
+}
+
+// Update job hiring status (open/closed)
+export async function updateHiringStatus(token, { job_id }, isOpen) {
+  const supabase = await supabaseClient(token);
+  const { data, error } = await supabase
+    .from("jobs")
+    .update({ isOpen })
+    .eq("id", job_id)
+    .select();
+
+  if (error) {
+    console.error("Error Updating Hiring Status:", error);
+    return null;
+  }
+
+  return data;
+}
+
+// Get jobs created by current recruiter
+export async function getMyJobs(token, { recruiter_id }) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .select("*, company: companies(name,logo_url)")
+    .eq("recruiter_id", recruiter_id);
+
+  if (error) {
+    console.error("Error fetching Jobs:", error);
+    return null;
+  }
+
+  return data;
+}
+
+// Delete job posting
+export async function deleteJob(token, { job_id }) {
+  const supabase = await supabaseClient(token);
+
+  // First, let's check if the job exists
+  const { data: existingJob, error: fetchError } = await supabase
+    .from("jobs")
+    .select("*")
+    .eq("id", job_id)
+    .single();
+
+  if (fetchError) {
+    throw new Error(`Job not found: ${fetchError.message}`);
+  }
+
+  const { data, error: deleteError } = await supabase
+    .from("jobs")
+    .delete()
+    .eq("id", job_id)
+    .select();
+
+  if (deleteError) {
+    throw new Error(`Failed to delete job: ${deleteError.message}`);
+  }
+
+  if (!data || data.length === 0) {
+    throw new Error("Job was not deleted - check permissions");
+  }
+
+  return data;
+}
+
+// Create new job posting
+export async function addNewJob(token, _, jobData) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .insert([jobData])
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error Creating Job");
+  }
+
+  return data;
+}
