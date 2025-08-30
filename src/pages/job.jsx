@@ -32,4 +32,9 @@ const JobPage = () => {
     job_id: id,
   });
 
+  // Load job data when user information is ready
+  useEffect(() => {
+    if (isLoaded) fnJob();
+  }, [isLoaded]);
+
   
