@@ -45,4 +45,10 @@ const JobPage = () => {
     }
   );
 
+  // Handle hiring status change from dropdown
+  const handleStatusChange = (value) => {
+    const isOpen = value === "open";
+    fnHiringStatus(isOpen).then(() => fnJob());
+  };
+
   
