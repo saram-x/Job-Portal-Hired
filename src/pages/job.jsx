@@ -51,4 +51,11 @@ const JobPage = () => {
     fnHiringStatus(isOpen).then(() => fnJob());
   };
 
-  
+  // Show loading spinner until job data is loaded
+  if (!isLoaded || loadingJob) {
+    return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
+  }
+
+  return (
+    <div className="flex flex-col gap-8 mt-5">
+      
