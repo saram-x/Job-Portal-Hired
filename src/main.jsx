@@ -20,4 +20,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       appearance={{
         baseTheme: shadesOfPurple,
       }}
-      
+      publishableKey={PUBLISHABLE_KEY}
+      afterSignOutUrl="/"
+    >
+      <App />
+    </ClerkProvider>
+  </React.StrictMode>
+);
