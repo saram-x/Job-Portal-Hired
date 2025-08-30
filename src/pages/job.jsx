@@ -37,4 +37,12 @@ const JobPage = () => {
     if (isLoaded) fnJob();
   }, [isLoaded]);
 
+  // Update job hiring status (open/closed) for recruiters
+  const { loading: loadingHiringStatus, fn: fnHiringStatus } = useFetch(
+    updateHiringStatus,
+    {
+      job_id: id,
+    }
+  );
+
   
