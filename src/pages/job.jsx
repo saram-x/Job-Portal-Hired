@@ -23,4 +23,13 @@ const JobPage = () => {
   const { id } = useParams(); // Extract job ID from URL params
   const { isLoaded, user } = useUser();
 
+  // Fetch detailed job information including applications
+  const {
+    loading: loadingJob,
+    data: job,
+    fn: fnJob,
+  } = useFetch(getSingleJob, {
+    job_id: id,
+  });
+
   
