@@ -66,4 +66,25 @@ const JobPage = () => {
         <img src={job?.company?.logo_url} className="h-12" alt={job?.title} />
       </div>
 
+      {/* Job metadata: location, applicants, status */}
+      <div className="flex justify-between ">
+        <div className="flex gap-2">
+          <MapPinIcon /> {job?.location}
+        </div>
+        <div className="flex gap-2">
+          <Briefcase /> {job?.applications?.length} Applicants
+        </div>
+        <div className="flex gap-2">
+          {job?.isOpen ? (
+            <>
+              <DoorOpen /> Open
+            </>
+          ) : (
+            <>
+              <DoorClosed /> Closed
+            </>
+          )}
+        </div>
+      </div>
+
       
