@@ -18,3 +18,9 @@ import ApplicationCard from "@/components/application-card";
 import useFetch from "@/hooks/use-fetch";
 import { getSingleJob, updateHiringStatus } from "@/api/apiJobs";
 
+// Individual job detail page with application functionality
+const JobPage = () => {
+  const { id } = useParams(); // Extract job ID from URL params
+  const { isLoaded, user } = useUser();
+
+  
