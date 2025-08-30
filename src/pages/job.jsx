@@ -98,4 +98,12 @@ const JobPage = () => {
                 "Hiring Status " + (job?.isOpen ? "( Open )" : "( Closed )")
               }
             />
-          
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="open">Open</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
+
+      
